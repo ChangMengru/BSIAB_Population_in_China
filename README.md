@@ -107,7 +107,7 @@ tree <- read.tree("SNP.tre")
 #the phylogenetic tree built in 9 above.
 
 mge_info = read.csv(file ='mge_statistics.txt', sep="\t", header=T, row.names = 1,check.names=FALSE)
-mge_Tn<-as.matrix(mge)[,1] # select one
+mge_Tn<-as.matrix(mge)[,1] # select one mge
 
 # estimate ancestral states and compute variances & 95% confidence intervals for each node:
 fit<-fastAnc(tree,mge_Tn,vars=TRUE,CI=TRUE)
@@ -115,7 +115,7 @@ fit<-fastAnc(tree,mge_Tn,vars=TRUE,CI=TRUE)
 # projection of the reconstruction onto the edges of the tree
 obj<-contMap(tree,mge_Tn,plot=FALSE)
 plot(obj,legend=0.7*max(nodeHeights(tree)),
-     fsize=c(0.2,0.9), lwd=1, outline = F, leg.txt="IS")
+     fsize=c(0.2,0.9), lwd=1, outline = F, leg.txt="Transposon")
 
 # fsize, set font size
 # outline, logical value indicated whether or not to outline the plotted color bar with a 1 pt line.
