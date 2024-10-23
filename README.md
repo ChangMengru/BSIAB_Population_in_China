@@ -31,7 +31,7 @@
 - [Gubbins](https://github.com/nickjcroucher/gubbins)
 - [minimap2](https://github.com/lh3/minimap2)
 - [BEAST2](https://www.beast2.org/)
->Take the s050011 isolate as an example.
+>The following code takes the strain named S1 as an example
 
 ## 2. Reads trimming
 ### PRINSEQ-lite
@@ -79,6 +79,7 @@ A step-by-step tutorial is available [here](https://bit.ly/kaptive-workshop).
 
 ## 9. Core SNP Phylogenetic analysis
 ```
+# call SNPs for multiple isolates from the same reference NC_021726.1, then get clean.full.aln file.
 
 ### Gubbins
 # detect recombination region
