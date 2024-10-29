@@ -31,36 +31,36 @@
 - [Gubbins](https://github.com/nickjcroucher/gubbins)
 - [minimap2](https://github.com/lh3/minimap2)
 - [BEAST2](https://www.beast2.org/)
->The following code takes the strain named S1 as an example
+>The following code takes the strain named S1 as an example.
 
 ## 2. Reads trimming
-### PRINSEQ-lite
+### PRINSEQ-lite (version 0.19.3)
 ```
 prinseq-lite -verbose -fastq S1_clean_1.fq -ns_max_p 10 -min_qual_mean 25 -out_good S1_1_good -out_bad S1_1_bad
 
 prinseq-lite -verbose -fastq S1_clean_2.fq -ns_max_p 10 -min_qual_mean 25 -out_good S1_2_good -out_bad S1_2_bad
 ```
 ## 3. Assembly
-### SPAdes
+### SPAdes (version 3.11.1)
 `spades.py -1 S1_1_good.fastq -2 S1_2_good.fastq --phred-offset 33 -o S1 -t 30 -m 1024`
 
 ## 4. Genome assembly evaluation
-### QUAST
+### QUAST (version 5.02)
 `quast -t 10 -o S1_N50 S1.fasta`
 
 ## 5. Amino acid identity (ANI) calculation
-### FastANI
+### FastANI (version 1.33)
 `fastANI --ql list.txt --rl strainlist.txt --matrix -t 40  -o ani.txt`
 
 ## 6. Genome annotation
-### Prokka
+### Prokka (version 1.13.0)
 `prokka --compliant --kingdom Bacteria --genus Acinetobacter --species baumannii --cpus 20 --outdir outdirname --prefix S1 S1.fasta`
 
 ### Compare with database
 `diamond blastp --db  database_name.dmnd -ungapped-score 95 --min-score 95 --query S1.faa --out test.tab --query-cover 80 --subject-cover 80 --outfmt 6 --evalue 1e-3 --id 80`
 
 ## 7. ST identification and diversity analysis
-### mlst
+### mlst (version 2.19.0)
 `mlst --scheme abaumannii --threads 40 S1.fasta`
 
 ### diversity analysis
@@ -69,7 +69,7 @@ Diversity indices of ST s were calculated via a custom script available on GitHu
 You can also find and download the script in `rarefaction-curves` directory.
 
 ## 8. Identification of surface polysaccharide synthesis sites
-### Kaptive
+### Kaptive (version 2.0.7)
 ```
 kaptive.py -a S1.fna -k reference_database/Acinetobacter_baumannii_k_locus_primary_reference.gbk -o S1.out
 
@@ -81,7 +81,7 @@ A step-by-step tutorial is available [here](https://bit.ly/kaptive-workshop).
 ```
 # call SNPs for multiple isolates from the same reference NC_021726.1, then get clean.full.aln file.
 
-### Gubbins
+### Gubbins (version 2.4.1)
 # detect recombination region
 run_gubbins.py -f 50 -p gubbins clean.full.aln
 
@@ -89,14 +89,14 @@ run_gubbins.py -f 50 -p gubbins clean.full.aln
 snp-sites -c gubbins.filtered_polymorphic_sites.fasta > clean.core.aln
 # -c only output columns containing exclusively ACGT
 
-### RAxML
-# build core SNP tree
+### RAxML (version 8.2.12)
+# build core SNP tree (about 2 days)
 raxmlHPC -f a -x 12345 -p 12345 -# 100 -m GTRGAMMAX -s clean.core.aln -n tre
 
 ```
 
 ## 10. Ancestral state reconstruction of mobile genetic element (MGE) number
-### Phytools, R
+### Phytools (Version 2.1-1), R (version 4.2.2)
 ```
 # SNP.tre and mge_statistics.csv can be found in `MGE_ancestral_state` dictionary
 # selected Transposon as example
@@ -115,7 +115,7 @@ fit<-fastAnc(tree,mge_Tn,vars=TRUE,CI=TRUE)
 # projection of the reconstruction onto the edges of the tree
 obj<-contMap(tree,mge_Tn,plot=FALSE)
 plot(obj,legend=0.7*max(nodeHeights(tree)),
-     fsize=c(0.2,0.9), lwd=1, outline = F, leg.txt="Transposon")
+     fsize=c(0.2,0.9), lwd=1, outline = F, leg.txt="Tn")
 
 # fsize, set font size
 # outline, logical value indicated whether or not to outline the plotted color bar with a 1 pt line.
@@ -125,6 +125,6 @@ plot(obj,legend=0.7*max(nodeHeights(tree)),
 # OR set colors manually
 obj<-setMap(obj,c("red", "#fffc00", "green", "purple", "blue", "#d7ff00", "black"))
 plot(obj,legend=0.5*max(nodeHeights(tree)),
-     fsize=c(0.1,0.9), lwd=1, outline = F, leg.txt="Transposon")
+     fsize=c(0.1,0.9), lwd=1, outline = F, leg.txt="Tn")
 
 ```
